@@ -1,0 +1,41 @@
+<div class="container">
+    <h1 class="text-center bold w-100">📝 To-Do List</h1>
+
+    <div class="input-container">
+        <input class="m-3 task-input" type="text" placeholder="Type new Task" [(ngModel)]="newtask">
+        <button type="submit" (click)="addNewTask()" class="add-btn">➕ Add</button>
+    </div>
+
+    <div class="filters">
+        <button (click)="filterBy = 'all'" class="filter" [ngClass]="{ 'active': filterBy === 'all' }">All</button>
+        <button (click)="filterBy = 'completed'" class="filter" [ngClass]="{ 'active': filterBy === 'completed' }">Completed</button>
+        <button (click)="filterBy = 'pending'" class="filter" [ngClass]="{ 'active': filterBy === 'pending' }">Pending</button>
+    </div>
+
+    <!-- Table for Task List -->
+    <table class="task-table">
+        <thead>
+            <tr>
+                <th>#</th>
+                <th>Task</th>
+                <th>Status</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr *ngFor="let data of tasks | status:filterBy; let i = index">
+                <td>{{ i + 1 }}</td>
+                <td>{{ data.title }}</td>
+                <td>
+                    <span [ngClass]="data.completed ? 'textGreen' : 'textRed'">
+                        {{ data.completed ? '✅ Completed' : '⏳ Pending' }}
+                    </span>
+                </td>
+                <td class="action-buttons">
+                    <button (click)="toggleTask(data.id)" class="toggle-btn">✔️ Toggle</button>
+                    <button (click)="deleteTask(data.id)" class="delete-btn">🗑 Delete</button>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+</div>
